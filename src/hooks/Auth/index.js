@@ -42,13 +42,9 @@ export function AuthProvider({ children }) {
     loadStorageData();
   }, []);
 
-
-
-  const signIn = async ({ email, password }) => {
+   const signIn = async ({ email, password }) => {
     const response = await authUser({ email, password });
-    
-
-    if (!response) {
+      if (!response) {
       setUser({
         autenticated: false,
         user: null,
@@ -71,14 +67,13 @@ export function AuthProvider({ children }) {
     setUser({});
   };
   
- 
-  if (user? autenticated === null) {
+  if (user.autenticated === null) {
     return ( 
      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
        <Text style={{fontSize: 28, marginTop: 15}}>
        Carregando Dados do Usuário
        </Text>
-    <ActivityIndicatoryIndicator size="large" color="#0000ff" />
+    <ActivityIndicator size="large" color="#0000ff" />
     </View>
     );
    }
