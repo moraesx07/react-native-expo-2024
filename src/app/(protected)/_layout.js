@@ -24,7 +24,7 @@ function CustomDrawerContent(props) {
       >
         <Image
           source={{
-            uri: "http://www.github.com/moraesx07.png",
+            uri: "https://github.com/moraesx07.png",
           }}
           style={{ width: 100, height: 100, borderRadius: 50, margin: 10 }}
         />
