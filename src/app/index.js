@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useAuth } from "../hooks/Auth";
@@ -35,7 +36,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aplicativo Pronto para Usar </Text>
+      <Text style={styles.title}>Aplicativo de Estilos de Roupas </Text>
       <View style={styles.inputbox}>
         <Ionicons name="mail-open-outline" size={20} color="black" />
         <TextInput
@@ -61,17 +62,15 @@ export default function App() {
           onPress={tooglePasswordVisibility}
         />
       </View>
-
-      <Button
-        style={styles.button}
-        title="Entrar"
-        onPress={handleEntrarSuper}
-      />
-      <Button title="Sobre" onPress={() => router.push("/about")} />
-      <Button
-        title="Sair do Aplicativo"
-        onPress={() => BackHandler.exitApp()}
-      />
+     <TouchableOpacity style={styles.button} onPress={handleEntrarSuper}>
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
+    <TouchableOpacity  onPress={() => router.push("/about")} style={styles.button} >
+      <Text style={styles.buttonText}>Sobre</Text>
+    </TouchableOpacity>
+      <TouchableOpacity  onPress={() => BackHandler.exitApp()} style={styles.button} >
+      <Text style={styles.buttonText}>Sair do Aplicativo</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
@@ -80,14 +79,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     alignItems: "center",
     justifyContent: "center",
     gap: 15,
+    
   },
   title: {
     fontFamily: "regular",
     fontSize: 20,
+    textAlign: "center",
   },
   inputbox: {
     flexDirection: "row",
@@ -95,6 +96,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
     marginVertical: 10,
     alignItems: "center",
+    backgroundColor: "#6c757d",
+    borderRadius: 10,
   },
   emailinput: {
     flex: 1,
@@ -102,6 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   button: {
-    width: 100,
-  }
+    backgroundColor: '#6c757d', 
+    paddingVertical: 10,        
+    paddingHorizontal: 20,       
+    borderRadius: 10,             
+    shadowRadius: 2,
+    top: 20,
+},
 });

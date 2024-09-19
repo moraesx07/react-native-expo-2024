@@ -42,15 +42,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#343a40', 
         paddingVertical: 10,        
         paddingHorizontal: 20,       
-        borderRadius: 5,             
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
+        borderRadius: 10,             
         shadowRadius: 2,
         top: 20,
     },
     buttonText: {
         color: '#FFFFFF',           
         fontSize: 16,                
-        fontWeight: 'bold',          
+        fontFamily: "regular",        
     },
 });

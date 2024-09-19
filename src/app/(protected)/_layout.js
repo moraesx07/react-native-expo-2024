@@ -42,10 +42,12 @@ function CustomDrawerContent(props) {
         style={{
           justifyContent: "center",
           alignItems: "center",
-          height: 50,
+          height: 40,
+          width: 170,
           margin: 10,
-          backgroundColor: "#0000ff",
-          borderRadius: 5,
+          backgroundColor: "#343a40",
+          borderRadius: 10, 
+          left: 37,
         }}
       >
         <Text style={{ color: "white", fontFamily: "bold" }}>Deslogar</Text>
