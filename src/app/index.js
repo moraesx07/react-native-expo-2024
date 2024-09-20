@@ -36,9 +36,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aplicativo de Estilos de Roupas </Text>
+      <Ionicons name="storefront" color="black" style={styles.test} />
+      <Text style={styles.title}>GM Store </Text>
       <View style={styles.inputbox}>
-        <Ionicons name="mail-open-outline" size={20} color="black" />
+        <Ionicons name="mail-open-outline" size={20} color="black"  />
         <TextInput
           style={styles.emailinput}
           placeholder="E-mail"
@@ -62,13 +63,13 @@ export default function App() {
           onPress={tooglePasswordVisibility}
         />
       </View>
-     <TouchableOpacity style={styles.button} onPress={handleEntrarSuper}>
+     <TouchableOpacity style={styles.buttonE} onPress={handleEntrarSuper}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-    <TouchableOpacity  onPress={() => router.push("/about")} style={styles.button} >
+    <TouchableOpacity  onPress={() => router.push("/about")} style={styles.buttonS} >
       <Text style={styles.buttonText}>Sobre</Text>
     </TouchableOpacity>
-      <TouchableOpacity  onPress={() => BackHandler.exitApp()} style={styles.button} >
+      <TouchableOpacity  onPress={() => BackHandler.exitApp()} style={styles.buttonA} >
       <Text style={styles.buttonText}>Sair do Aplicativo</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
@@ -79,7 +80,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     gap: 15,
@@ -87,8 +88,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "regular",
-    fontSize: 20,
+    fontSize: 35,
     textAlign: "center",
+    bottom: 60,
   },
   inputbox: {
     flexDirection: "row",
@@ -96,20 +98,49 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
     marginVertical: 10,
     alignItems: "center",
-    backgroundColor: "#6c757d",
+    backgroundColor: "#D9D9D9",
     borderRadius: 10,
+    right: 30,
+    top: 20,
   },
   emailinput: {
-    flex: 1,
+    height: 40,
+    width: 270,
     fontFamily: "regular",
     fontSize: 20,
+    flex: 1,
   },
-  button: {
-    backgroundColor: '#6c757d', 
+  buttonE: {
+    backgroundColor: '#D9D9D9', 
     paddingVertical: 10,        
     paddingHorizontal: 20,       
     borderRadius: 10,             
     shadowRadius: 2,
-    top: 20,
+    top: 50,
+    right: 160,
+},
+buttonS: {
+  backgroundColor: '#D9D9D9', 
+  paddingVertical: 10,        
+  paddingHorizontal: 20,       
+  borderRadius: 10,             
+  shadowRadius: 2,
+bottom: 2, 
+  left: 150,
+},
+buttonA: {
+  backgroundColor: '#D9D9D9', 
+  paddingVertical: 10,        
+  paddingHorizontal: 20,       
+  borderRadius: 10,             
+  shadowRadius: 2,
+  width: 400,
+  alignItems: "center",
+  top: 220,
+},
+test: {
+  bottom: 40,
+  fontSize: 50,
+  marginBottom: 10,
 },
 });

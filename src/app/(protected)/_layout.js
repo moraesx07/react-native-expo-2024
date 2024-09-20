@@ -18,7 +18,7 @@ function CustomDrawerContent(props) {
           marginTop: 20,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#D9D9D9",
           paddingVertical: 10,
         }}
       >
@@ -34,7 +34,7 @@ function CustomDrawerContent(props) {
           {user?.user?.nome}
         </Text>
       </View>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView {...props} style={{backgroundColor: "#f0f0f0"}}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <TouchableOpacity
@@ -45,12 +45,12 @@ function CustomDrawerContent(props) {
           height: 40,
           width: 170,
           margin: 10,
-          backgroundColor: "#343a40",
+          backgroundColor: "#D9D9D9",
           borderRadius: 10, 
           left: 37,
         }}
       >
-        <Text style={{ color: "white", fontFamily: "bold" }}>Deslogar</Text>
+        <Text style={{ fontFamily: "bold" }}>Deslogar</Text>
       </TouchableOpacity>
     </View>
   );
