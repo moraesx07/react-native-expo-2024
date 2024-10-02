@@ -12,6 +12,16 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { z } from "zod";
+import { useAuth } from "../../hooks/Auth/index";
+
+const paymentSchema = z.object({
+  valor_pago: z.number().gt(0),
+  user_id: z.number().int().positive(),
+  user_cadastro: z.number().int().positive(),
+  data_pagamento: z.date(),
+  observacao: z.string(),
+});
 
 export default function Payment() {
   const [valor, setValor] = useState("0,00");
@@ -162,6 +172,7 @@ export default function Payment() {
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
   const valueRef = useRef();
+  const { user } = useAuth();
 
   const handleCalendar = (event, selectedDate) => {
     setViewCalendar(false);
@@ -173,13 +184,50 @@ export default function Payment() {
   }, []);
 
   const handleChangeValor = (value) => {
-    const valorLimpo = value.replace(",", "").replace(".", "");
-    console.log("Valor Limpo: ", valorLimpo);
-    const valorConvertido = Number(valorLimpo) / 100;
-    console.log("Valor Convertido: ", valorConvertido);  
-    if (valorConvertido === 0 || isNaN(valorConvertido)) {
+    try {
+      let valorLimpo = value.replace(",", "").replace(".", "");
+      let valorConvertido = Number(valorLimpo) / 100;
+      if (valorConvertido === 0 || isNaN(valorConvertido)) {
+        setValor("0,00");
+        return;
+      }
+      let valorPtBR = Intl.NumberFormat("pt-BR", {
+        style: "decimal",
+        minimumFractionDigits: 2,
+      }).format(valorConvertido);
+      setValor(valorPtBR);
+    } catch (error) {
       setValor("0,00");
-      return;
+    }
+  };
+
+  const convertValue = (value) => {
+    try {
+      let valorLimpo = value.replace(",", "").replace(".", "");
+      let valorConvertido = Number(valorLimpo) / 100;
+      if (valorConvertido === 0 || isNaN(valorConvertido)) {
+        return 0;
+      }
+      return valorConvertido;
+    } catch (error) {
+      return valorConvertido;
+    }
+  };
+
+  const handleSubmit = async () => {
+    const payment = {
+      user_id: id,
+      user_cadastro: Number(user.user.id),
+      valor_pago: convertValue(valor),
+      data_pagamento: data,
+      observacao,
+    };
+
+    try {
+      const result = await paymentSchema.parseAsync(payment);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -239,7 +287,7 @@ export default function Payment() {
           />
         </View>
         <View style={styles.contentButtons}>
-          <Button title="Salvar" />
+          <Button title="Salvar" onPress={handleSubmit} />
           <Button title="Continuar" />
           <Button title="Cancelar" onPress={() => router.back()} />
         </View>
