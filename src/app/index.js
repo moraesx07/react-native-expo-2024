@@ -36,8 +36,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Ionicons name="storefront" color="black" style={styles.test} />
-      <Text style={styles.title}>GM Store </Text>
+      <Ionicons name="shirt-outline" color="black" style={styles.test} />
+      <Text style={styles.title}>GM Wear </Text>
       <View style={styles.inputbox}>
         <Ionicons name="mail-open-outline" size={20} color="black"  />
         <TextInput

@@ -1,6 +1,14 @@
 import { router } from "expo-router";
-import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -153,68 +161,90 @@ export default function Payment() {
   const [data, setData] = useState(new Date());
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
+  const valueRef = useRef();
 
   const handleCalendar = (event, selectedDate) => {
     setViewCalendar(false);
     setData(selectedDate);
   };
 
+  useEffect(() => {
+    valueRef?.current?.focus();
+  }, []);
+
+  const handleChangeValor = (value) => {
+    const valorLimpo = value.replace(",", "").replace(".", "");
+    console.log("Valor Limpo: ", valorLimpo);
+    const valorConvertido = Number(valorLimpo) / 100;
+    console.log("Valor Convertido: ", valorConvertido);  
+    if (valorConvertido === 0 || isNaN(valorConvertido)) {
+      setValor("0,00");
+      return;
+    }
+  };
+
   return (
-    <View style={styles.content}>
-      <Text>Inserir Pagamento</Text>
-      <View style={styles.inputView}>
-        <Ionicons name="wallet" size={24} color="black" />
-        <TextInput
-          placeholder="Valor"
-          keyboardType="decimal-pad"
-          style={styles.inputValor}
-          value={valor}
-          onChangeText={setValor}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <Picker
-          selectedValue={id}
-          onValueChange={(itemValue, index) => {
-            setId(itemValue);
-          }}
-          style={{ width: "100%" }}
-        >
-          {sugestoes?.map((item) => {
-            return (
-              <Picker.Item key={item.id} label={item.nome} value={item.id} />
-            );
-          })}
-        </Picker>
-      </View>
-      <View style={styles.inputView}>
-        <Text onPress={() => setViewCalendar(true)} style={styles.inputData}>
-          {data.toLocaleDateString().split("T")[0]}
-        </Text>
-        {viewCalendar && (
-          <DateTimePicker
-            value={data}
-            onChange={handleCalendar}
-            mode="date"
-            testID="datetimepicker"
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View style={styles.content}>
+        <Text>Inserir Pagamento</Text>
+        <View style={styles.inputView}>
+          <Ionicons name="wallet" size={24} color="black" />
+          <TextInput
+            placeholder="Valor"
+            keyboardType="decimal-pad"
+            style={styles.inputValor}
+            value={valor}
+            onChangeText={(newValue) => handleChangeValor(newValue)}
+            ref={valueRef}
           />
-        )}
+        </View>
+        <View style={styles.inputView}>
+          <Picker
+            selectedValue={id}
+            onValueChange={(itemValue, index) => {
+              setId(itemValue);
+            }}
+            style={{ width: "100%" }}
+          >
+            {sugestoes?.map((item) => {
+              return (
+                <Picker.Item key={item.id} label={item.nome} value={item.id} />
+              );
+            })}
+          </Picker>
+        </View>
+        <View style={styles.inputView}>
+          <Text onPress={() => setViewCalendar(true)} style={styles.inputData}>
+            {data.toLocaleDateString().split("T")[0]}
+          </Text>
+          {viewCalendar && (
+            <DateTimePicker
+              value={data}
+              onChange={handleCalendar}
+              mode="date"
+              testID="datetimepicker"
+            />
+          )}
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            placeholder="Observações"
+            style={styles.inputObservacao}
+            value={observacao}
+            onChangeText={setObservacao}
+            multiline={true}
+          />
+        </View>
+        <View style={styles.contentButtons}>
+          <Button title="Salvar" />
+          <Button title="Continuar" />
+          <Button title="Cancelar" onPress={() => router.back()} />
+        </View>
       </View>
-      <View style={styles.inputView}>
-        <TextInput
-          placeholder="Observações"
-          style={styles.inputObservacao}
-          value={observacao}
-          onChangeText={setObservacao}
-          multiline={true}
-        />
-      </View>
-      <View style={styles.contentButtons}>
-        <Button title="Salvar" />
-        <Button title="Continuar" />
-        <Button title="Cancelar" onPress={() => router.back()} />
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
