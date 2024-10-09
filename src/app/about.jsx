@@ -53,7 +53,7 @@ export default function About() {
       </Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.replace("/")}
+        onPress={() => router.back("/")}
       >
         <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>

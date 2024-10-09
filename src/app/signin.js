@@ -66,7 +66,7 @@ export default function App() {
      <TouchableOpacity style={styles.buttonE} onPress={handleEntrarSuper}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-    <TouchableOpacity  onPress={() => router.push("/about")} style={styles.buttonS} >
+    <TouchableOpacity  onPress={() => router.push("about")} style={styles.buttonS} >
       <Text style={styles.buttonText}>Sobre</Text>
     </TouchableOpacity>
       <TouchableOpacity  onPress={() => BackHandler.exitApp()} style={styles.buttonA} >
