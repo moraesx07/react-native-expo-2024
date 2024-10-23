@@ -12,8 +12,10 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { z } from "zod";
+import { set, z } from "zod";
 import { useAuth } from "../../hooks/Auth/index";
+import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
+import { useUsersDatabase } from "../../database/useUsersDatabase";
 
 const paymentSchema = z.object({
   valor_pago: z.number().gt(0),
@@ -25,154 +27,15 @@ const paymentSchema = z.object({
 
 export default function Payment() {
   const [valor, setValor] = useState("0,00");
-  const [sugestoes, setSusgestoes] = useState([
-    {
-      id: 1,
-      nome: "Roland Cominello",
-    },
-    {
-      id: 2,
-      nome: "Joell Penswick",
-    },
-    {
-      id: 3,
-      nome: "Dal Ambroisin",
-    },
-    {
-      id: 4,
-      nome: "Mirna Puckey",
-    },
-    {
-      id: 5,
-      nome: "Connie Stenbridge",
-    },
-    {
-      id: 6,
-      nome: "Goldy Newbegin",
-    },
-    {
-      id: 7,
-      nome: "Reilly Newborn",
-    },
-    {
-      id: 8,
-      nome: "Flynn Scholte",
-    },
-    {
-      id: 9,
-      nome: "Cyb Stollard",
-    },
-    {
-      id: 10,
-      nome: "Melvin Bacop",
-    },
-    {
-      id: 11,
-      nome: "Verene Macenzy",
-    },
-    {
-      id: 12,
-      nome: "Adolpho Cosker",
-    },
-    {
-      id: 13,
-      nome: "Lay Dignon",
-    },
-    {
-      id: 14,
-      nome: "Roderic Carlick",
-    },
-    {
-      id: 15,
-      nome: "Loleta Orgen",
-    },
-    {
-      id: 16,
-      nome: "Teddie MacMaster",
-    },
-    {
-      id: 17,
-      nome: "Crystal Weiss",
-    },
-    {
-      id: 18,
-      nome: "Sharron Goldthorp",
-    },
-    {
-      id: 19,
-      nome: "Frayda Horsburgh",
-    },
-    {
-      id: 20,
-      nome: "Brandais Constantine",
-    },
-    {
-      id: 21,
-      nome: "Daffy Valero",
-    },
-    {
-      id: 22,
-      nome: "Belinda Bonnet",
-    },
-    {
-      id: 23,
-      nome: "Alphard Dicke",
-    },
-    {
-      id: 24,
-      nome: "Alyse Slyvester",
-    },
-    {
-      id: 25,
-      nome: "Filippa Newbery",
-    },
-    {
-      id: 26,
-      nome: "Marcus Kennealy",
-    },
-    {
-      id: 27,
-      nome: "Goldia Marder",
-    },
-    {
-      id: 28,
-      nome: "Ingemar Camosso",
-    },
-    {
-      id: 29,
-      nome: "Agnesse Towers",
-    },
-    {
-      id: 30,
-      nome: "Simona Birchwood",
-    },
-    {
-      id: 31,
-      nome: "Lizette Palk",
-    },
-    {
-      id: 32,
-      nome: "Windham Stansall",
-    },
-    {
-      id: 33,
-      nome: "Annalee Sagerson",
-    },
-    {
-      id: 34,
-      nome: "Brade Fernandes",
-    },
-    {
-      id: 35,
-      nome: "Maurine Krauss",
-    },
-  ]);
+  const [sugestoes, setSusgestoes] = useState([]);
   const [id, setId] = useState(1);
   const [data, setData] = useState(new Date());
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
   const valueRef = useRef();
   const { user } = useAuth();
+const { createPayment } = usePaymentsDatabase();
+const { getAllUsers } = useUsersDatabase();
 
   const handleCalendar = (event, selectedDate) => {
     setViewCalendar(false);
@@ -180,7 +43,17 @@ export default function Payment() {
   };
 
   useEffect(() => {
+    (async () => {
     valueRef?.current?.focus();
+    try {
+      const users = await getAllUsers();
+      setSusgestoes(users);
+      setId(users[0].id);
+    } catch (error) {
+      console.log(error);
+    }
+  })();
+
   }, []);
 
   const handleChangeValor = (value) => {
@@ -225,7 +98,12 @@ export default function Payment() {
 
     try {
       const result = await paymentSchema.parseAsync(payment);
-      console.log(result);
+      const { insertedID } = await createPayment(payment);
+      console.log(insertedID);
+      setValor("0,00");
+      setId(sugestoes[0].id);
+      setData(new Date());
+      setObservacao("");
     } catch (error) {
       console.log(error);
     }

@@ -16,35 +16,20 @@ export function useUsersDatabase() {
     }
   }
 
-  async function createUser({
-    user_id,
-    user_cadastro,
-    valor_pago,
-    data_pagamento,
-    obervaçao,
-  }) {
-    const statment = await database.prepareAsync(`
-      INSERT INTO payments (user_id, user_cadastro, valor_pago, data_pagamento, obervaçao)
-       VALUES ($user_id, $user_cadastro, $valor_pago, $data_pagamento, $observacao);
+ async function getAllUsers() {
+  try {
+    const result = await database.getAllAsync(`	
+      SELECT id, nome FROM users
       `);
-    try {
-      const result = await statment.executeAsync({
-        $user_id: user_id,
-        $user_cadastro: user_cadastro,
-        $valor_pago: valor_pago,
-        $data_pagamento: data_pagamento,
-        $observacao: obervaçao,
-      });
-      const insertID = result.lastInsertRowId.toString();
-      return { insertID };
-    } catch (error) {
-      console.log(error)
-    } finally {
-      await statment.finalizeAsync();
-    }
+    return result;
+  } catch (error) {
+    console.log("useUsersDatabase getAllUsers error: ", error);
+    throw error;
   }
+ }
 
   return {
-    authUser, createUser
+    authUser, getAllUsers,
   };
 }
+
