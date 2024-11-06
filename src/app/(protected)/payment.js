@@ -98,12 +98,13 @@ const { getAllUsers } = useUsersDatabase();
 
     try {
       const result = await paymentSchema.parseAsync(payment);
-      const { insertedID } = await createPayment(payment);
-      console.log(insertedID);
+      const { insertedId } = await createPayment(payment);
+      console.log(insertedId);
       setValor("0,00");
       setId(sugestoes[0].id);
       setData(new Date());
       setObservacao("");
+      valueRef?.current?.focus();
     } catch (error) {
       console.log(error);
     }
