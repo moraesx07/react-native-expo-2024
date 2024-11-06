@@ -9,10 +9,11 @@ export function usePaymentsDatabase() {
     valor_pago,
     data_pagamento,
     observacao,
+    numero_recibo,
   }) {
     const statment = await database.prepareAsync(`
-          INSERT INTO payments (user_id, user_cadastro, valor_pago, data_pagamento, observacao)
-           VALUES ($user_id, $user_cadastro, $valor_pago, $data_pagamento, $observacao);
+          INSERT INTO payments (user_id, user_cadastro, valor_pago, data_pagamento, observacao, numero_recibo)
+           VALUES ($user_id, $user_cadastro, $valor_pago, $data_pagamento, $observacao, $numero_recibo);
           `);
     try {
       const result = await statment.executeAsync({
@@ -21,6 +22,7 @@ export function usePaymentsDatabase() {
         $valor_pago: valor_pago,
         $data_pagamento: data_pagamento,
         $observacao: observacao,
+        $numero_recibo: numero_recibo,
       });
       // console.log("createPayment result: ", result);
       const insertedId = result.lastInsertRowId.toLocaleString();

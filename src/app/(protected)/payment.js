@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
+  Alert,
   Button,
   KeyboardAvoidingView,
   Platform,
@@ -22,7 +23,8 @@ const paymentSchema = z.object({
   user_id: z.number().int().positive(),
   user_cadastro: z.number().int().positive(),
   data_pagamento: z.date(),
-  observacao: z.string(),
+  numero_recebido: z.string().optional(),
+  observacao: z.string().optional(),
 });
 
 export default function Payment() {
@@ -32,6 +34,7 @@ export default function Payment() {
   const [data, setData] = useState(new Date());
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
+  const [numeroRecebido, setNumeroRecebido] = useState("");
   const valueRef = useRef();
   const { user } = useAuth();
 const { createPayment } = usePaymentsDatabase();
@@ -93,6 +96,7 @@ const { getAllUsers } = useUsersDatabase();
       user_cadastro: Number(user.user.id),
       valor_pago: convertValue(valor),
       data_pagamento: data,
+      numero_recebido: numeroRecebido,
       observacao,
     };
 
@@ -103,9 +107,11 @@ const { getAllUsers } = useUsersDatabase();
       setValor("0,00");
       setId(sugestoes[0].id);
       setData(new Date());
+      setNumeroRecebido("");
       setObservacao("");
       valueRef?.current?.focus();
     } catch (error) {
+      Alert.alert("Erro", `Erro ao inserir pagamento: ${error.message}` );
       console.log(error);
     }
   };
@@ -126,6 +132,17 @@ const { getAllUsers } = useUsersDatabase();
             value={valor}
             onChangeText={(newValue) => handleChangeValor(newValue)}
             ref={valueRef}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <Ionicons name="cash-outline" size={24} color="black" />
+          <TextInput
+            placeholder="Número do Recibo"
+            keyboardType="decimal-pad"
+            style={styles.inputValor}
+            value={numeroRecebido}
+            onChangeText={setNumeroRecebido}
+         
           />
         </View>
         <View style={styles.inputView}>
