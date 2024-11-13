@@ -1,11 +1,11 @@
 export async function initializeDatabase(database) {
     try {
       await database.execAsync(`
-       /* DROP TABLE IF EXISTS payments;
+     /* DROP TABLE IF EXISTS payments;
 
         DROP TABLE IF EXISTS users;
 
-        DROP TABLE IF EXISTS idx_users_nome;
+        DROP INDEX IF EXISTS idx_users_nome;
 
         DROP INDEX IF EXISTS idx_payments_data_pagamento; */
 
@@ -34,7 +34,7 @@ export async function initializeDatabase(database) {
         FOREIGN KEY (user_cadastro) REFERENCES users(id)
         );
 
-        CREATE INDEX IF NOT EXISTS idx_users_nome ON payments (nome);
+        CREATE INDEX IF NOT EXISTS idx_users_nome ON users (nome);
 
         CREATE INDEX IF NOT EXISTS idx_payments_data_pagamento ON payments (data_pagamento);
 

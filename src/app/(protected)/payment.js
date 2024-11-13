@@ -34,7 +34,7 @@ export default function Payment() {
   const [data, setData] = useState(new Date());
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
-  const [numeroRecebido, setNumeroRecebido] = useState("");
+  const [numeroRecibo, setNumeroRecibo] = useState("");
   const valueRef = useRef();
   const { user } = useAuth();
 const { createPayment } = usePaymentsDatabase();
@@ -96,7 +96,7 @@ const { getAllUsers } = useUsersDatabase();
       user_cadastro: Number(user.user.id),
       valor_pago: convertValue(valor),
       data_pagamento: data,
-      numero_recebido: numeroRecebido,
+      numero_recibo: numeroRecibo,
       observacao,
     };
 
@@ -107,11 +107,11 @@ const { getAllUsers } = useUsersDatabase();
       setValor("0,00");
       setId(sugestoes[0].id);
       setData(new Date());
-      setNumeroRecebido("");
+      setNumeroRecibo("");
       setObservacao("");
       valueRef?.current?.focus();
     } catch (error) {
-      Alert.alert("Erro", `Erro ao inserir pagamento: ${error.message}` );
+      Alert.alert("Erro", `Erro ao inserir pagamento: ${error.message}`);
       console.log(error);
     }
   };
@@ -140,8 +140,8 @@ const { getAllUsers } = useUsersDatabase();
             placeholder="Número do Recibo"
             keyboardType="decimal-pad"
             style={styles.inputValor}
-            value={numeroRecebido}
-            onChangeText={setNumeroRecebido}
+            value={numeroRecibo}
+            onChangeText={setNumeroRecibo}
          
           />
         </View>
