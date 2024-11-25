@@ -16,26 +16,28 @@ export default function List() {
     }
 
     useEffect(() => {
-    
+
       fetchData()
     }, [])
 
     renderItem = ({item}) => (
-        <View>
-            <View></View>
-            <View></View>
-        <Text>{item.created_at}</Text>
-
-
-
+        <View style={{flexDirection: "row", margin: 5}}>
+           <View style={{flex: 1}}>
+            <Text>{item.nome}</Text>
+           <View style={{flexDirection: "row"}}>
+           <Text>{item.data_pagamento}</Text> 
+           <Text>{item.numero_recebido}</Text>
+           </View>
+           </View>
+           <View><Text>{item.valor_pago}</Text></View>
         </View>
-      );
+      ); 
 
 
     return (
         <View style={{ flex: 1 }}>
-            <text>Pagamentos</text>
-        <View style={{ flex: 1 }}>
+            <Text>Pagamentos</Text>
+            <View style={{ flex: 1 }}>
             <FlashList
               data={data}
               renderItem={renderItem}
