@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
+import { FlashList } from "@shopify/flash-list";
 
 export default function List() {
     const [ data, setData] = useState([])
@@ -11,30 +12,36 @@ export default function List() {
     async function fetchData() {
         const payments = await getPayments();
         setData(payments)
-        //return payments;
+        
     }
 
-
     useEffect(() => {
-       // const tempData = fetchData();
-       // console.log(tempData);
-      //  setData(tempData);
+    
       fetchData()
     }, [])
 
+    renderItem = ({item}) => (
+        <View>
+            <View></View>
+            <View></View>
+        <Text>{item.created_at}</Text>
 
+
+
+        </View>
+      );
 
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Listagem</Text>
-            {
-            data.length > 0  &&  data.map((item, index) => {
-                    return (
-                        <Text key={index}>{item.id}</Text>
-                    )
-                })
-            }
+        <View style={{ flex: 1 }}>
+            <text>Pagamentos</text>
+        <View style={{ flex: 1 }}>
+            <FlashList
+              data={data}
+              renderItem={renderItem}
+              estimatedItemSize={200}
+            />
+        </View>
         </View>
     );
 }
