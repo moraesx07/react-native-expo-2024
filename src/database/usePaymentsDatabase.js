@@ -38,5 +38,18 @@ export function usePaymentsDatabase() {
     }
   }
 
-  return { createPayment };
+ async function getPayments() {
+  try {
+    const payments = await database. getAllAsync("SELECT * FROM payments");
+    return payments;
+  } catch (error) {
+    console.log(error);
+    throw error;
+ }
+} 
+
+
+
+
+  return { createPayment, getPayments };
 }
