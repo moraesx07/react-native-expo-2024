@@ -4,21 +4,22 @@ import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
 
 export default function List() {
     const [ data, setData] = useState([])
-    const { getPayments } = usePaymentsDatabase;
+    const {getPayments} = usePaymentsDatabase()
 
 
 
     async function fetchData() {
         const payments = await getPayments();
-        return payments;
+        setData(payments)
+        //return payments;
     }
 
 
     useEffect(() => {
-
-        const tempData = fetchData();
-        console.log(tempData);
-        setData(tempData);
+       // const tempData = fetchData();
+       // console.log(tempData);
+      //  setData(tempData);
+      fetchData()
     }, [])
 
 
@@ -30,7 +31,7 @@ export default function List() {
             {
             data.length > 0  &&  data.map((item, index) => {
                     return (
-                        <Text key={index}>{item}</Text>
+                        <Text key={index}>{item.id}</Text>
                     )
                 })
             }
