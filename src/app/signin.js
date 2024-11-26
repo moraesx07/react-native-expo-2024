@@ -72,6 +72,9 @@ export default function App() {
       <TouchableOpacity  onPress={() => BackHandler.exitApp()} style={styles.buttonA} >
       <Text style={styles.buttonText}>Sair do Aplicativo</Text>
       </TouchableOpacity>
+      <TouchableOpacity  onPress={() => router.push("/maintenance")} >
+      <Text>banco de dados</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
