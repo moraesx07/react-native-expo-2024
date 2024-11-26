@@ -22,7 +22,7 @@ const paymentSchema = z.object({
   valor_pago: z.number().gt(0),
   user_id: z.number().int().positive(),
   user_cadastro: z.number().int().positive(),
-  data_pagamento: z.date(),
+  data_pagamento: z.string(). datetime(),
   numero_recebido: z.string().optional(),
   observacao: z.string().optional(),
 });
@@ -95,13 +95,14 @@ const { getAllUsers } = useUsersDatabase();
       user_id: id,
       user_cadastro: Number(user.user.id),
       valor_pago: convertValue(valor),
-      data_pagamento: data,
+      data_pagamento: data.toISOString(),
       numero_recibo: numeroRecibo,
       observacao,
     };
 
-    try {
+   try {
       const result = await paymentSchema.parseAsync(payment);
+      payment.data_pagamento = new Date(payment.data_pagamento).toISOString().replace("T"," ").split(".")[0];
       const { insertedId } = await createPayment(payment);
       console.log(insertedId);
       setValor("0,00");
