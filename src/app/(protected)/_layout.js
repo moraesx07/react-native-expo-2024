@@ -18,8 +18,10 @@ function CustomDrawerContent(props) {
           marginTop: 20,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#D9D9D9",
-          paddingVertical: 10,
+          backgroundColor: "#1E3A5F", // Azul marinho
+          paddingVertical: 20,
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
         }}
       >
         <Image
@@ -29,12 +31,17 @@ function CustomDrawerContent(props) {
           style={{ width: 100, height: 100, borderRadius: 50, margin: 10 }}
         />
         <Text
-          style={{ textAlign: "center", fontSize: 16, fontFamily: "regular" }}
+          style={{
+            textAlign: "center",
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#fff", // Texto em branco para contraste
+          }}
         >
           {user?.user?.nome}
         </Text>
       </View>
-      <DrawerContentScrollView {...props} style={{backgroundColor: "#f0f0f0"}}>
+      <DrawerContentScrollView {...props} style={{ backgroundColor: "#F0F0F0" }}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <TouchableOpacity
@@ -42,15 +49,15 @@ function CustomDrawerContent(props) {
         style={{
           justifyContent: "center",
           alignItems: "center",
-          height: 40,
+          height: 45,
           width: 170,
-          margin: 10,
-          backgroundColor: "#D9D9D9",
-          borderRadius: 10, 
-          left: 37,
+          margin: 20,
+          backgroundColor: "#ADD8E6", // Dourado para destacar
+          borderRadius: 10,
+          alignSelf: "center",
         }}
       >
-        <Text style={{ fontFamily: "bold" }}>Deslogar</Text>
+        <Text style={{ fontFamily: "bold", color: "#fff" }}>Deslogar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -66,7 +73,7 @@ const DrawerLayout = () => {
             drawerLabel: "Principal",
             headerTitle: "Principal",
             drawerIcon: () => (
-              <Ionicons name="home-outline" size={20} color="black" />
+              <Ionicons name="home-outline" size={22} color="#1E3A5F" /> // Azul marinho no ícone
             ),
           }}
         />
@@ -76,7 +83,7 @@ const DrawerLayout = () => {
             drawerLabel: "Listagem",
             headerTitle: "Listagem",
             drawerIcon: () => (
-              <Ionicons name="list-outline" size={20} color="black" />
+              <Ionicons name="list-outline" size={22} color="#1E3A5F" />
             ),
           }}
         />
@@ -86,8 +93,15 @@ const DrawerLayout = () => {
             drawerLabel: "Pagamento",
             headerTitle: "Pagamento",
             drawerIcon: () => (
-              <Ionicons name="diamond-outline" size={20} color="black" />
+              <Ionicons name="diamond-outline" size={22} color="#1E3A5F" />
             ),
+          }}
+        />
+        <Drawer.Screen
+          name="details"
+          options={{
+            headerTitle: "Detalhes",
+            drawerItemStyle: { display: "none" }, // Escondendo a opção
           }}
         />
       </Drawer>

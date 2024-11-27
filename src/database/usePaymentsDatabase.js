@@ -48,8 +48,15 @@ const payments = await database. getAllAsync(`SELECT p.*, u.nome FROM payments p
  }
 } 
 
+async function getPayment(id) {
+  try {
+    const payment = await database.getFirstAsync(`  SELECT p.*, u.nome FROM payments p, users u WHERE u.id = p.user_id AND p.id = ${id}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 
-
-  return { createPayment, getPayments };
+  return { createPayment, getPayment ,getPayments };
 }
